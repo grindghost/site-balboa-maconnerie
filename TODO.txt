@@ -1,0 +1,10 @@
+Balboa Maçonnerie — site web
+============================
+
+À compléter avant / après mise en ligne :
+
+• URL Facebook (lien du pied de page + aria / texte visible)
+• No. de téléphone (remplacer le placeholder, ex. JSON-LD, tel:)
+• Courriel de réception du formulaire (Web3Forms : compte / destination des soumissions)
+• Changer le courriel du pied de page (mailto: et texte affiché)
+• Google Map (intégrer une carte ou un lien vers l’adresse / Google Maps sur le site)
