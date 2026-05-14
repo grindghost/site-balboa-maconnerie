@@ -910,7 +910,7 @@ code {
   transition: filter 0.25s ease;
 }
 
-.gallery figcaption {
+.gallery .gallery__caption {
   padding: var(--space-sm);
   text-align: center;
   font-size: 0.9rem;

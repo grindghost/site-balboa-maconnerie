@@ -53,6 +53,9 @@
   });
 
   /* Galerie lightbox */
+  var PLACEHOLDER_IMG =
+    "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7";
+
   var lightbox = qs("[data-lightbox]");
   var lightboxImg = qs("[data-lightbox-img]");
   var lightboxCaption = qs("[data-lightbox-caption]");
@@ -73,7 +76,7 @@
   function closeLightbox() {
     if (!lightbox) return;
     lightbox.hidden = true;
-    lightboxImg.src = "";
+    lightboxImg.src = PLACEHOLDER_IMG;
     document.body.style.overflow = "";
     if (lastFocused && typeof lastFocused.focus === "function") {
       lastFocused.focus();
@@ -83,7 +86,7 @@
   qsa("[data-gallery-open]").forEach(function (btn) {
     btn.addEventListener("click", function () {
       var img = qs("img", btn);
-      var cap = qs("figcaption", btn);
+      var cap = qs(".gallery__caption", btn);
       openLightbox(img, cap ? cap.textContent : "");
     });
   });
