@@ -14,7 +14,12 @@
   <link rel="icon" href="/assets/icon.svg" type="image/svg+xml">
   <!-- Google tag (gtag.js) — Google Analytics 4 -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-XB6FB8KQ03"></script>
-  <script src="/gtag-config.js"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-XB6FB8KQ03');
+  </script>
 </head>
 <body>
   <header class="site-header">
