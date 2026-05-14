@@ -2,7 +2,7 @@
 .DS_Store
 Thumbs.db
 
-# Secrets et config locale (garder .env.example versionné)
+# Secrets et config locale
 .env
 .env.local
 .env.*.local

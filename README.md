@@ -1,69 +1,48 @@
-# Balboa Maçonnerie — site one page
+# Balboa Maçonnerie — site vitrine
 
-Site statique **HTML / CSS / JavaScript** pour présenter les services de Balboa Maçonnerie et recevoir des demandes de soumission. Le formulaire envoie les données via **[FormSubmit](https://formsubmit.co)** (aucune fonction serverless ni clé API à gérer pour l’envoi).
+**Site Web vitrine (one pager)** pour **Balboa Maçonnerie**, entreprise de maçonnerie résidentielle à Québec. Une seule page d’accueil présente les services, une galerie de réalisations, les témoignages et un formulaire de demande de soumission.
 
-Les textes proviennent de `text.md`. La direction artistique s’inspire de `preview.png` et de `assets/mockup-reference.png` (copie de référence dans le dépôt).
+## Stack
 
-## Fichiers
+- **HTML** sémantique (`index.html`), **CSS** sur mesure (`styles.css`), **JavaScript** sans framework (`script.js`).
+- **Aucun build** ni bundler : fichiers servis tels quels.
+- **Formulaire** : envoi via [Web3Forms](https://web3forms.com) (`fetch` vers leur API), puis redirection vers `merci.html`.
 
-| Fichier | Rôle |
-|--------|------|
-| `index.html` | Structure sémantique, SEO, JSON-LD |
-| `styles.css` | Mise en page, thème, responsive |
-| `script.js` | Menu mobile, galerie, formulaire (validation client + envoi FormSubmit) |
-| `assets/` | Logo, textures de fond, placeholders galerie, mockup |
-| `robots.txt` / `sitemap.xml` | SEO — **à adapter à votre domaine** |
-| `.env.example` | Rappel : pas de variables requises pour le formulaire |
+## Déploiement
 
-## Lancement local
+Le site est **hébergé sur [Vercel](https://vercel.com)** (projet statique, preset *Other* / pas de framework). Exemple d’URL de production : [balboa-maconnerie.vercel.app](https://balboa-maconnerie.vercel.app/).
 
-Aucune étape de build n’est obligatoire pour le front.
+Après changement de domaine, mettre à jour dans `index.html` les balises **canonical** et **Open Graph**, le **JSON-LD**, ainsi que `robots.txt` et `sitemap.xml`.
+
+## Développement local
 
 ```bash
-# Servir la racine du projet (exemple avec Python)
 python3 -m http.server 8080
 ```
 
-Ouvrir `http://localhost:8080`. Le formulaire poste vers FormSubmit : en local, la soumission fonctionne comme en production (redirection après envoi selon FormSubmit).
+Ouvrir `http://localhost:8080`. Le formulaire fonctionne comme en production (Web3Forms côté navigateur).
 
-## Déploiement Vercel
+## Fichiers principaux
 
-1. Pousser le dépôt sur GitHub (ou autre) et importer le projet dans Vercel, **ou** utiliser `vercel` en CLI depuis ce dossier.
-2. Framework preset : **Other** (site statique).
-3. Après déploiement, mettre à jour :
-   - `canonical`, Open Graph, JSON-LD, `robots.txt`, `sitemap.xml` avec votre domaine réel.
+| Fichier | Rôle |
+|--------|------|
+| `index.html` | Page unique : structure, SEO, JSON-LD, formulaire |
+| `merci.html` | Page de remerciement après envoi réussi |
+| `styles.css` | Thème, mise en page, responsive |
+| `script.js` | Navigation mobile, lightbox galerie, formulaire |
+| `assets/` | Logo, images, textures |
+| `robots.txt`, `sitemap.xml` | SEO |
 
-## Remplacement des images
+Les textes de référence sont dans `text.md` ; la direction artistique peut s’appuyer sur `preview.png` et `assets/mockup-reference.png`.
 
-| Emplacement | Usage |
-|-------------|-------|
-| `assets/hero.png` | Fond du hero (photo principale). Pour de meilleures perfs, exportez aussi une variante WebP et remplacez l’URL dans `.hero__media`. |
-| `assets/realisation-1.jpg` … `realisation-6.jpg` | Galerie « Nos réalisations » (dimensions affichées 483×292, `loading="lazy"`). |
-| `assets/champion.png` | Fond du bandeau citation (« champion » / Québec). |
-| `assets/gloves.png` | Image de la section « À propos » (bloc `about__visual`). |
-| `assets/mockup-reference.png` | Référence design / OG image — compressez avant production. |
-| `assets/logo.svg` | Logo (copie de `logo.svg` à la racine). |
+## Coordonnées et formulaire
 
-Après changement de chemins ou de noms de fichiers, mettre à jour `index.html` et les métadonnées Open Graph / JSON-LD si nécessaire.
+Coordonnées, liens et clé Web3Forms : voir `index.html` (pied de page et champs cachés du formulaire). Pour le spam ou des besoins avancés, les options Web3Forms (domaine autorisé, captcha, etc.) se configurent dans leur tableau de bord.
 
-## Remplacement des coordonnées
+## Balises Google (optionnel)
 
-Dans `index.html` : pied de page (`tel:`, `mailto:`), lien Facebook, éventuellement le bloc JSON-LD, et l’URL FormSubmit dans l’attribut `action` du formulaire (`https://formsubmit.co/…`). Remplacez les exemples `(418) 555-0123` et `soumissions@balboamaconnerie.ca` si vos coordonnées changent.
+Emplacement prévu dans `index.html` (commentaire *Google tag*). Ne pas y placer de secrets.
 
-## Formulaire (FormSubmit)
+## Contenu
 
-- **Action** : `POST` vers `https://formsubmit.co/soumissions@balboamaconnerie.ca` (voir `index.html`).
-- **Champs** : `name`, `phone`, `email`, `projectAddress`, `description`, plus les champs réservés FormSubmit (`_subject`, `_template`, `_next`, `_gotcha` anti-spam).
-- **Première utilisation** : FormSubmit envoie un courriel de **confirmation** à l’adresse de destination avant d’activer le formulaire.
-- **Après envoi** : redirection vers la même page avec `?merci=1#soumission` ; le script affiche un message de remerciement puis nettoie l’URL dans la barre d’adresse.
-- **Validation** : règles côté client dans `script.js` (longueurs, description 10 à 1000 caractères, téléphone avec au moins 7 chiffres, etc.). FormSubmit applique sa propre couche côté service.
-
-Pour des pièces jointes ou une logique métier plus poussée, il faudrait repasser par une API ou un autre service.
-
-## Balises Google (Analytics / GTM)
-
-Emplacement prévu dans `index.html` : commentaire `<!-- Google tag ... -->`. Collez-y le snippet fourni par Google **sans** y mettre de secrets côté client (les IDs publics GTM / mesure sont conçus pour être visibles dans la page).
-
-## Licence du contenu
-
-Textes : voir `text.md`. Logo et visuels : droits de leur auteur respectif.
+Textes : `text.md`. Logo et visuels : droits de leurs auteurs respectifs.
