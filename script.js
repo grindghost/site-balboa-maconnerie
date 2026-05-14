@@ -228,8 +228,8 @@
         })
         .then(function (out) {
           if (out.res.ok && out.data && out.data.success) {
-            setStatus("Merci! Nous vous contacterons bientôt.", "ok");
-            form.reset();
+            window.location.href = "/merci.html";
+            return;
           } else {
             var msg =
               (out.data && (out.data.message || out.data.error)) ||

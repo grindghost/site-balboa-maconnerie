@@ -1282,3 +1282,22 @@ code {
 #soumission {
   scroll-margin-top: 5.5rem;
 }
+
+/* Page remerciement (merci.html) */
+.thank-you-page__inner {
+  max-width: 36rem;
+  min-height: min(70vh, 32rem);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.thank-you-page__lead {
+  margin: 0 0 var(--space-lg);
+  font-size: 1.05rem;
+  color: var(--text-muted);
+}
+
+.thank-you-page__actions {
+  margin: 0;
+}
