@@ -99,9 +99,10 @@
     });
   }
 
-  /* Formulaire — FormSubmit (https://formsubmit.co) */
+  /* Formulaire — Web3Forms (https://web3forms.com) */
   var form = qs("[data-contact-form]");
   var statusEl = qs("[data-form-status]");
+  var WEB3FORMS_URL = "https://api.web3forms.com/submit";
 
   var LIMIT = {
     name: 120,
@@ -171,34 +172,12 @@
   }
 
   if (form) {
-    var nextInput = qs("[data-formsubmit-next]", form);
-    if (nextInput) {
-      try {
-        var u = new URL(window.location.href);
-        u.searchParams.set("merci", "1");
-        u.hash = "#soumission";
-        nextInput.value = u.toString();
-      } catch (err) {
-        nextInput.value = "";
-      }
-    }
-
-    try {
-      if (new URLSearchParams(window.location.search).get("merci") === "1") {
-        setStatus("Merci! Nous vous contacterons bientôt.", "ok");
-        var clean = window.location.pathname + "#soumission";
-        window.history.replaceState({}, document.title, clean);
-      }
-    } catch (e2) {
-      /* ignore */
-    }
-
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       setStatus("", null);
 
-      var honeypot = form.querySelector('input[name="_gotcha"]');
-      if (honeypot && honeypot.value) {
+      var botcheck = form.querySelector('input[name="botcheck"]');
+      if (botcheck && botcheck.checked) {
         setStatus("Envoi refusé.", "err");
         return;
       }
@@ -230,9 +209,43 @@
       if (descEl) descEl.value = payload.description;
 
       var submitBtn = form.querySelector('button[type="submit"]');
-      if (submitBtn) submitBtn.disabled = true;
+      var originalBtnText = submitBtn ? submitBtn.textContent : "";
+      if (submitBtn) {
+        submitBtn.disabled = true;
+        submitBtn.textContent = "Envoi en cours…";
+      }
 
-      HTMLFormElement.prototype.submit.call(form);
+      var formData = new FormData(form);
+
+      fetch(WEB3FORMS_URL, {
+        method: "POST",
+        body: formData,
+      })
+        .then(function (res) {
+          return res.json().then(function (data) {
+            return { res: res, data: data };
+          });
+        })
+        .then(function (out) {
+          if (out.res.ok && out.data && out.data.success) {
+            setStatus("Merci! Nous vous contacterons bientôt.", "ok");
+            form.reset();
+          } else {
+            var msg =
+              (out.data && (out.data.message || out.data.error)) ||
+              "Une erreur s’est produite. Réessayez plus tard.";
+            setStatus(msg, "err");
+          }
+        })
+        .catch(function () {
+          setStatus("Impossible d’envoyer le formulaire. Vérifiez votre connexion et réessayez.", "err");
+        })
+        .finally(function () {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            submitBtn.textContent = originalBtnText;
+          }
+        });
     });
   }
 })();
