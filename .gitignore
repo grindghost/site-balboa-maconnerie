@@ -1,0 +1,26 @@
+# OS
+.DS_Store
+Thumbs.db
+
+# Secrets et config locale (garder .env.example versionné)
+.env
+.env.local
+.env.*.local
+
+# Éditeurs / IDE
+*.swp
+*.swo
+*~
+.idea/
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Si vous ajoutez un outil Node plus tard
+node_modules/
+dist/
+.cache/
+.parcel-cache/
