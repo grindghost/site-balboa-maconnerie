@@ -607,41 +607,36 @@ code {
 /* À propos — bande rouge, photo complice en fond */
 .about-band {
   position: relative;
-  overflow-x: clip;
-  --about-grunge-ratio: 2431 / 770;
+  margin-top: 2rem;
   --about-photo-fade-end: 58%;
 }
 
-/* Contour grunge — ratio natif de grunge.png (2431×770), à cheval sur le haut du bloc */
+/* Contour grunge — SVG pleine largeur, moitié derrière le bloc rouge */
 .about-band__grunge-top {
   position: absolute;
   top: 0;
-  left: -200px;
-  width: 130%;
+  left: 50%;
+  width: 120vw;
+  max-width: none;
+  aspect-ratio: 1920 / 1080;
   height: auto;
-  aspect-ratio: var(--about-grunge-ratio);
-  transform: translateY(-20%);
+  transform: translate(-50%, -32%);
   z-index: 0;
   pointer-events: none;
-  opacity: 1;
-  background-color: var(--accent);
-  -webkit-mask-image: url("/assets/grunge.png");
-  mask-image: url("/assets/grunge.png");
-  -webkit-mask-size: 100% auto;
-  mask-size: 100% auto;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-position: center bottom;
-  mask-position: center bottom;
-  -webkit-mask-mode: alpha;
-  mask-mode: alpha;
+  display: block;
+  fill: var(--accent);
+}
+
+/* La couleur se propage dans le SVG référencé via <use> */
+.about-band__grunge-top use {
+  fill: inherit;
 }
 
 .about-band__body {
   position: relative;
+  z-index: 1;
   color: var(--cream);
   padding-block: clamp(2rem, 5vw, 3.5rem);
-  overflow-x: clip;
 }
 
 .about-band__bg {
