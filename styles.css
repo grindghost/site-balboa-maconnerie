@@ -791,7 +791,7 @@ code {
     position: absolute;
     top: 0.15rem;
     bottom: 0.15rem;
-    width: 1px;
+    width: 2px;
     right: calc(-0.5 * var(--about-pillars-col-gap));
     transform: translateX(50%);
     background: rgba(245, 242, 234, 0.737);
@@ -1340,6 +1340,8 @@ code {
 }
 
 .site-footer__rbq-placeholder {
+  display: inline-block;
+  white-space: nowrap;
   font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   letter-spacing: 0.04em;
   color: rgba(245, 242, 234, 0.55);
@@ -1353,7 +1355,7 @@ code {
 
   .site-footer__rbq {
     max-width: none;
-    text-align: right;
+    text-align: left;
   }
 }
 
