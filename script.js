@@ -297,12 +297,36 @@
     if (data.email.length > LIMIT.email) return "Le courriel est trop long.";
     if (!data.projectAddress || data.projectAddress.length < 5) return "Indiquez l’adresse du projet.";
     if (data.projectAddress.length > LIMIT.address) return "L’adresse du projet est trop longue.";
-    if (!data.description || data.description.length < 10) return "Décrivez les travaux (au moins 10 caractères).";
+    if (!data.description || data.description.length < 1) return "Décrivez les travaux.";
     if (data.description.length > LIMIT.description) return "La description ne doit pas dépasser 1000 caractères.";
     return "";
   }
 
+  function getFormPayload(formEl) {
+    return {
+      name: sanitizeSingleLine((qs("#contact-name", formEl) || {}).value, LIMIT.name),
+      phone: sanitizePhone((qs("#contact-phone", formEl) || {}).value),
+      email: sanitizeEmail((qs("#contact-email", formEl) || {}).value),
+      projectAddress: sanitizeSingleLine((qs("#contact-address", formEl) || {}).value, LIMIT.address),
+      description: sanitizeText((qs("#contact-description", formEl) || {}).value, LIMIT.description),
+    };
+  }
+
+  function updateSubmitButton(formEl) {
+    var submitBtn = formEl.querySelector('button[type="submit"]');
+    if (!submitBtn || submitBtn.dataset.submitting === "true") return;
+    submitBtn.disabled = validateClient(getFormPayload(formEl)) !== "";
+  }
+
   if (form) {
+    var submitBtn = form.querySelector('button[type="submit"]');
+
+    form.addEventListener("input", function () {
+      updateSubmitButton(form);
+    });
+
+    updateSubmitButton(form);
+
     form.addEventListener("submit", function (e) {
       e.preventDefault();
       setStatus("", null);
@@ -319,17 +343,12 @@
       var addrEl = qs("#contact-address", form);
       var descEl = qs("#contact-description", form);
 
-      var payload = {
-        name: sanitizeSingleLine((nameEl || {}).value, LIMIT.name),
-        phone: sanitizePhone((phoneEl || {}).value),
-        email: sanitizeEmail((emailEl || {}).value),
-        projectAddress: sanitizeSingleLine((addrEl || {}).value, LIMIT.address),
-        description: sanitizeText((descEl || {}).value, LIMIT.description),
-      };
+      var payload = getFormPayload(form);
 
       var err = validateClient(payload);
       if (err) {
         setStatus(err, "err");
+        updateSubmitButton(form);
         return;
       }
 
@@ -339,9 +358,9 @@
       if (addrEl) addrEl.value = payload.projectAddress;
       if (descEl) descEl.value = payload.description;
 
-      var submitBtn = form.querySelector('button[type="submit"]');
       var originalBtnText = submitBtn ? submitBtn.textContent : "";
       if (submitBtn) {
+        submitBtn.dataset.submitting = "true";
         submitBtn.disabled = true;
         submitBtn.textContent = "Envoi en cours…";
       }
@@ -373,8 +392,9 @@
         })
         .finally(function () {
           if (submitBtn) {
-            submitBtn.disabled = false;
+            delete submitBtn.dataset.submitting;
             submitBtn.textContent = originalBtnText;
+            updateSubmitButton(form);
           }
         });
     });
