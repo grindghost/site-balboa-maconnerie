@@ -95,8 +95,8 @@
             <span class="hero__line">Du travail solide.</span>
             <span class="hero__line hero__line--accent">Brique par brique.</span>
           </p>
-          <p class="hero__lead">Entreprise de maçonnerie à Québec spécialisée en réparation de brique, rejointoiement, restauration et petits travaux résidentiels.</p>
-          <p class="hero__text">Chez Balboa Maçonnerie, on croit au travail honnête, aux finitions propres et aux projets qui tiennent debout longtemps. Pas de grosses promesses. Juste du vrai bon travail fait par deux gars passionnés du métier.</p>
+          <p class="hero__lead">Entreprise de maçonnerie à Québec spécialisée en maison neuve, réparation de brique, rejointoiement et restauration résidentielle.</p>
+          <p class="hero__text">Chez Balboa Maçonnerie, on croit au travail bien exécuté, aux finitions propres et aux projets qui tiennent debout longtemps. Pas de grosses promesses. Juste du vrai bon travail fait par deux gars passionnés du métier.</p>
           <div class="hero__actions">
             <a class="btn btn--primary" href="#soumission">Obtenir une soumission</a>
             <a class="btn btn--ghost" href="#realisations">Voir nos réalisations</a>
@@ -113,7 +113,7 @@
         <div class="services-split__intro">
           <p class="eyebrow">Nos services</p>
           <h2 id="services-heading" class="section__title">Nos services de maçonnerie à Québec</h2>
-          <p class="section__lead">Réparation de brique, rejointoiement, restauration de cheminée et petits travaux résidentiels — exécutés par une petite équipe qui tient à la qualité.</p>
+          <p class="section__lead">Maison neuve, réparation de brique, rejointoiement et restauration résidentielle — exécutés avec soin par une petite équipe qui tient à la qualité.</p>
           <a class="btn btn--primary" href="#soumission">Obtenir une soumission</a>
         </div>
         <ul class="service-grid">
@@ -275,44 +275,7 @@
         <h2 id="gallery-heading" class="section__title">Nos réalisations</h2>
         <p class="section__lead">Découvrez quelques projets de maçonnerie réalisés dans la région de Québec&nbsp;: réparation de briques, rejointoiement, restauration et travaux résidentiels.</p>
       </div>
-      <div class="gallery layout" data-gallery>
-        <figure class="gallery__item">
-          <button type="button" class="gallery__trigger" data-gallery-open aria-haspopup="dialog" aria-expanded="false" aria-controls="lightbox-dialog">
-            <img src="/assets/realisation-1.jpg" alt="Mur de brique rouge en réfection autour d’une fenêtre : joints et maçonnerie." width="483" height="292" loading="lazy" decoding="async">
-            <span class="gallery__caption">Réfection complète de joints de mortier</span>
-          </button>
-        </figure>
-        <figure class="gallery__item">
-          <button type="button" class="gallery__trigger" data-gallery-open aria-haspopup="dialog" aria-expanded="false" aria-controls="lightbox-dialog">
-            <img src="/assets/realisation-2.jpg" alt="Cheminée résidentielle en briques rouges, chapeau de béton et ciel nuageux." width="483" height="292" loading="lazy" decoding="async">
-            <span class="gallery__caption">Réparation de cheminée résidentielle</span>
-          </button>
-        </figure>
-        <figure class="gallery__item">
-          <button type="button" class="gallery__trigger" data-gallery-open aria-haspopup="dialog" aria-expanded="false" aria-controls="lightbox-dialog">
-            <img src="/assets/realisation-3.jpg" alt="Angle de mur de brique patiné et encadrement en bois, travail de maçonnerie." width="483" height="292" loading="lazy" decoding="async">
-            <span class="gallery__caption">Remplacement de briques endommagées</span>
-          </button>
-        </figure>
-        <figure class="gallery__item">
-          <button type="button" class="gallery__trigger" data-gallery-open aria-haspopup="dialog" aria-expanded="false" aria-controls="lightbox-dialog">
-            <img src="/assets/realisation-4.jpg" alt="Mur de fondation en pierre naturelle sous une façade de briques." width="483" height="292" loading="lazy" decoding="async">
-            <span class="gallery__caption">Travaux de pierre décorative</span>
-          </button>
-        </figure>
-        <figure class="gallery__item">
-          <button type="button" class="gallery__trigger" data-gallery-open aria-haspopup="dialog" aria-expanded="false" aria-controls="lightbox-dialog">
-            <img src="/assets/realisation-5.jpg" alt="Angle d’immeuble en briques rouges avec inserts en pierre grise et fenêtre." width="483" height="292" loading="lazy" decoding="async">
-            <span class="gallery__caption">Restauration de façade</span>
-          </button>
-        </figure>
-        <figure class="gallery__item">
-          <button type="button" class="gallery__trigger" data-gallery-open aria-haspopup="dialog" aria-expanded="false" aria-controls="lightbox-dialog">
-            <img src="/assets/realisation-6.jpg" alt="Fenêtre sur mur de brique avec seuil en pierre, détail de réfection de maçonnerie." width="483" height="292" loading="lazy" decoding="async">
-            <span class="gallery__caption">Réparation après infiltration d’eau</span>
-          </button>
-        </figure>
-      </div>
+      <div class="gallery-masonry" data-gallery aria-live="polite"></div>
       <div class="layout layout--center">
         <a class="btn btn--primary" href="#soumission">Demandez une soumission</a>
       </div>
@@ -471,9 +434,11 @@
 
   <div class="lightbox" id="lightbox-dialog" role="dialog" aria-modal="true" aria-label="Agrandissement de la photo" hidden data-lightbox>
     <div class="lightbox__backdrop" data-lightbox-close tabindex="-1"></div>
-    <div class="lightbox__panel">
-      <button type="button" class="lightbox__close" data-lightbox-close aria-label="Fermer">&times;</button>
-      <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="lightbox__img" width="483" height="292" data-lightbox-img>
+    <div class="lightbox__content">
+      <figure class="lightbox__figure">
+        <button type="button" class="lightbox__close" data-lightbox-close aria-label="Fermer">&times;</button>
+        <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7" alt="" class="lightbox__img" width="483" height="292" data-lightbox-img>
+      </figure>
       <p class="lightbox__caption" data-lightbox-caption></p>
     </div>
   </div>

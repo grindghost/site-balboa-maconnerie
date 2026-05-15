@@ -1,0 +1,58 @@
+{
+  "realisations": [
+    {
+      "id": "maison-neuve-pierre",
+      "thumbnail": "/assets/realisation-6.jpeg",
+      "image": "/assets/realisation-6.jpeg",
+      "alt": "Maison neuve avec revêtement de pierre naturelle à l’extérieur, finition soignée et mise en valeur de la façade.",
+      "caption": "Pierre extérieure sur maison neuve",
+      "size": "large",
+      "row": 1
+    },
+    {
+      "id": "cheminee-residentielle",
+      "thumbnail": "/assets/realisation-2.jpeg",
+      "image": "/assets/realisation-2.jpeg",
+      "alt": "Cheminée résidentielle en briques rouges, chapeau de béton et ciel nuageux.",
+      "caption": "Réparation de cheminée résidentielle",
+      "size": "normal",
+      "row": 1
+    },
+    {
+      "id": "briques-endommagees",
+      "thumbnail": "/assets/realisation-3.jpeg",
+      "image": "/assets/realisation-3.jpeg",
+      "alt": "Angle de mur de brique patiné et encadrement en bois, travail de maçonnerie.",
+      "caption": "Remplacement de briques endommagées",
+      "size": "normal",
+      "row": 1
+    },
+    {
+      "id": "pierre-decorative",
+      "thumbnail": "/assets/realisation-4.jpeg",
+      "image": "/assets/realisation-4.jpeg",
+      "alt": "Mur de fondation en pierre naturelle sous une façade de briques.",
+      "caption": "Travaux de pierre décorative",
+      "size": "wide",
+      "row": 2
+    },
+    {
+      "id": "facade-restauration",
+      "thumbnail": "/assets/realisation-5.jpeg",
+      "image": "/assets/realisation-5.jpeg",
+      "alt": "Angle d’immeuble en briques rouges avec inserts en pierre grise et fenêtre.",
+      "caption": "Restauration de façade",
+      "size": "normal",
+      "row": 2
+    },
+    {
+      "id": "rejointoiement-fenetre",
+      "thumbnail": "/assets/realisation-1.jpeg",
+      "image": "/assets/realisation-1.jpeg",
+      "alt": "Mur de brique rouge en réfection autour d’une fenêtre : joints et maçonnerie.",
+      "caption": "Réfection complète de joints de mortier",
+      "size": "normal",
+      "row": 2
+    }
+  ]
+}

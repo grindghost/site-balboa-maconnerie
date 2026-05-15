@@ -83,13 +83,141 @@
     }
   }
 
-  qsa("[data-gallery-open]").forEach(function (btn) {
-    btn.addEventListener("click", function () {
+  var VALID_SIZES = { normal: true, wide: true, tall: true, large: true };
+  var REALISATIONS_URL = "/data/realisations.json";
+  var GALLERY_COLS = 12;
+  var COL_SPAN = { normal: 3, wide: 6, tall: 3, large: 6 };
+
+  function hasThumbnail(item) {
+    return item && typeof item.thumbnail === "string" && item.thumbnail.trim() !== "";
+  }
+
+  function gallerySizeClass(size) {
+    var key = typeof size === "string" ? size.trim().toLowerCase() : "normal";
+    return VALID_SIZES[key] ? key : "normal";
+  }
+
+  function colSpanForItem(item) {
+    if (typeof item.colSpan === "number" && item.colSpan > 0) {
+      return Math.min(GALLERY_COLS, Math.round(item.colSpan));
+    }
+    var size = gallerySizeClass(item.size);
+    return COL_SPAN[size] || COL_SPAN.normal;
+  }
+
+  /** Répartit les tuiles sur exactement 2 rangées (12 colonnes chacune). */
+  function packTwoRows(items) {
+    var used = [0, 0];
+    return items.map(function (item) {
+      var span = colSpanForItem(item);
+      var row = 0;
+
+      if (item.row === 1 || item.row === 2) {
+        row = item.row - 1;
+      } else {
+        row = used[0] <= used[1] ? 0 : 1;
+      }
+
+      if (used[row] + span > GALLERY_COLS) {
+        var other = row === 0 ? 1 : 0;
+        if (used[other] + span <= GALLERY_COLS) {
+          row = other;
+        } else {
+          span = Math.max(1, GALLERY_COLS - used[row]);
+        }
+      }
+
+      used[row] += span;
+      return { row: row + 1, colSpan: span };
+    });
+  }
+
+  function applyDesktopPlacement(figure, placement) {
+    if (!placement) return;
+    figure.style.setProperty("--gallery-row", String(placement.row));
+    figure.style.setProperty("--gallery-col-span", String(placement.colSpan));
+  }
+
+  function bindGalleryLightbox(root) {
+    if (!root) return;
+    root.addEventListener("click", function (e) {
+      var btn = e.target.closest("[data-gallery-open]");
+      if (!btn || !root.contains(btn)) return;
       var img = qs("img", btn);
-      var cap = qs(".gallery__caption", btn);
+      var fullSrc = btn.getAttribute("data-full-src");
+      if (fullSrc && img) {
+        img = { src: fullSrc, alt: img.alt || "" };
+      }
+      var cap = qs(".gallery-masonry__caption", btn);
       openLightbox(img, cap ? cap.textContent : "");
     });
-  });
+  }
+
+  function renderGallery(items) {
+    var root = qs("[data-gallery]");
+    if (!root) return;
+
+    var visible = items.filter(hasThumbnail);
+    if (!visible.length) {
+      root.hidden = true;
+      return;
+    }
+
+    var placements = packTwoRows(visible);
+    var frag = document.createDocumentFragment();
+    visible.forEach(function (item, index) {
+      var size = gallerySizeClass(item.size);
+      var figure = document.createElement("figure");
+      figure.className = "gallery-masonry__item gallery-masonry__item--" + size;
+      if (item.id) figure.id = "realisation-" + item.id;
+      applyDesktopPlacement(figure, placements[index]);
+
+      var btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "gallery-masonry__trigger";
+      btn.setAttribute("data-gallery-open", "");
+      btn.setAttribute("aria-haspopup", "dialog");
+      btn.setAttribute("aria-controls", "lightbox-dialog");
+      var fullSrc = (item.image && String(item.image).trim()) || item.thumbnail.trim();
+      btn.setAttribute("data-full-src", fullSrc);
+
+      var media = document.createElement("div");
+      media.className = "gallery-masonry__media";
+      var img = document.createElement("img");
+      img.src = item.thumbnail.trim();
+      img.alt = item.alt || "";
+      img.loading = "lazy";
+      img.decoding = "async";
+      media.appendChild(img);
+
+      if (item.caption) {
+        var cap = document.createElement("span");
+        cap.className = "gallery-masonry__caption";
+        cap.textContent = item.caption;
+        media.appendChild(cap);
+      }
+
+      btn.appendChild(media);
+      figure.appendChild(btn);
+      frag.appendChild(figure);
+    });
+
+    root.appendChild(frag);
+    bindGalleryLightbox(root);
+  }
+
+  fetch(REALISATIONS_URL)
+    .then(function (res) {
+      if (!res.ok) throw new Error("realisations fetch failed");
+      return res.json();
+    })
+    .then(function (data) {
+      var list = data && Array.isArray(data.realisations) ? data.realisations : [];
+      renderGallery(list);
+    })
+    .catch(function () {
+      /* Galerie vide si le JSON est indisponible */
+    });
 
   if (lightbox) {
     qsa("[data-lightbox-close]", lightbox).forEach(function (el) {
