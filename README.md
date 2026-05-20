@@ -1,6 +1,6 @@
-# Balboa Maçonnerie — site vitrine
+# Maçonnerie Balboa — site vitrine
 
-**Site Web vitrine (one pager)** pour **Balboa Maçonnerie**, entreprise de maçonnerie résidentielle à Québec. Une seule page d’accueil présente les services, une galerie de réalisations, les témoignages et un formulaire de demande de soumission.
+**Site Web vitrine (one pager)** pour **Maçonnerie Balboa**, entreprise de maçonnerie résidentielle à Québec. Une seule page d’accueil présente les services, une galerie de réalisations, les témoignages et un formulaire de demande de soumission.
 
 ## Stack
 
